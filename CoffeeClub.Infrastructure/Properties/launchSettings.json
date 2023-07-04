@@ -1,0 +1,12 @@
+﻿{
+  "profiles": {
+    "CoffeeClub.Infrastructure": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:57547;http://localhost:58729"
+    }
+  }
+}
