@@ -18,4 +18,26 @@
     <ProjectReference Include="..\CoffeeClub.Domain\CoffeeClub.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Features\Coffee\Commands\DeleteCoffee\" />
+    <None Remove="Features\CoffeeGroup\" />
+    <None Remove="Features\CoffeeGroup\Commands\" />
+    <None Remove="Features\CoffeeGroup\Queries\" />
+    <None Remove="Features\CoffeeGroup\Commands\CreateCoffeeGroup\" />
+    <None Remove="Features\VottingSession\" />
+    <None Remove="Features\VottingSession\Commands\" />
+    <None Remove="Features\VottingSession\Queries\" />
+    <None Remove="Features\VottingSession\Commands\CreateVotingSession\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Features\Coffee\Commands\DeleteCoffee\" />
+    <Folder Include="Features\CoffeeGroup\" />
+    <Folder Include="Features\CoffeeGroup\Commands\" />
+    <Folder Include="Features\CoffeeGroup\Queries\" />
+    <Folder Include="Features\CoffeeGroup\Commands\CreateCoffeeGroup\" />
+    <Folder Include="Features\VottingSession\" />
+    <Folder Include="Features\VottingSession\Commands\" />
+    <Folder Include="Features\VottingSession\Queries\" />
+    <Folder Include="Features\VottingSession\Commands\CreateVotingSession\" />
+  </ItemGroup>
 </Project>

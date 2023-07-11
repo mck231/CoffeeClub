@@ -1,8 +1,8 @@
 ﻿using CoffeeClub.Application.Features.Coffee.Commands.CreateCoffee;
+using CoffeeClub.Application.Features.Coffee.Commands.DeleteCoffee;
 using CoffeeClub.Application.Features.Coffee.Commands.UpdateCoffee;
 using CoffeeClub.Application.Features.Coffee.Queries.GetCoffee;
 using CoffeeClub.Application.Features.Coffee.Queries.GetCoffeeList;
-using EllipticCurve.Utils;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -45,32 +45,31 @@ namespace CoffeeClub.Api.Controllers
             return CreatedAtAction(nameof(GetCoffeeById), new { id = coffeeId }, coffeeId);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("update")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateCoffee(Guid id, [FromBody] UpdateCoffeeCommand command)
+        public async Task<IActionResult> UpdateCoffee([FromBody] UpdateCoffeeCommand command)
         {
-            if(id == null || id == Guid.Empty)
+            if(command.Id == null || command.Id == Guid.Empty)
             {
                 return BadRequest();
             }
-                
 
             await _mediator.Send(command);
 
             return Ok();
         }
 
-        //[HttpDelete("{id}")]
-        //[ProducesResponseType(StatusCodes.Status204NoContent)]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        //public async Task<IActionResult> DeleteCoffee(Guid id)
-        //{
-        //    var command = new DeleteCoffeeCommand { Id = id };
-        //    await _mediator.Send(command);
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteCoffee(Guid id)
+        {
+            var command = new DeleteCoffeeCommand { Id = id };
+            await _mediator.Send(command);
 
-        //    return NoContent();
-        //}
+            return NoContent();
+        }
 
     }
 }

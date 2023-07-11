@@ -21,6 +21,8 @@ namespace CofeeClub.Persistence
 
             services.AddScoped(typeof(IAsyncRepository<>), typeof(BaseRepository<>));
             services.AddScoped<ICoffeeRepository, CoffeeRepository>();
+            services.AddScoped<ICoffeeGroupRepository, CoffeeGroupRepository>();
+
 
             return services;
         }
