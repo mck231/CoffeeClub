@@ -1,5 +1,4 @@
-﻿using System;
-using CoffeeClub.Application.Features.CoffeeGroup.Commands.CreateCoffeeGroup;
+﻿using CoffeeClub.Application.Features.Team.Commands.CreateTeam;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,23 +6,23 @@ namespace CoffeeClub.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CoffeeGroupController : ControllerBase
+    public class TeamController : ControllerBase
     {
         private readonly IMediator _mediator;
-
-        public CoffeeGroupController(IMediator mediator)
+        
+        public TeamController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
         [HttpPost("create")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult<Guid>> CreateCoffeeGroup()
+        public async Task<ActionResult<Guid>> CreateTeam()
         {
-            var command = new CreateCoffeeGroupCommand();
+            var command = new CreateTeamCommand();
             await _mediator.Send(command);
             return StatusCode(StatusCodes.Status201Created);
         }
+
     }
 }
-

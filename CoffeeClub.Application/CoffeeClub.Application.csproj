@@ -35,9 +35,5 @@
     <Folder Include="Features\CoffeeGroup\Commands\" />
     <Folder Include="Features\CoffeeGroup\Queries\" />
     <Folder Include="Features\CoffeeGroup\Commands\CreateCoffeeGroup\" />
-    <Folder Include="Features\VottingSession\" />
-    <Folder Include="Features\VottingSession\Commands\" />
-    <Folder Include="Features\VottingSession\Queries\" />
-    <Folder Include="Features\VottingSession\Commands\CreateVotingSession\" />
   </ItemGroup>
 </Project>

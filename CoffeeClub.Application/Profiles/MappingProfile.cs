@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CoffeeClub.Application.Features.Coffee.Queries.GetCoffee;
+using CoffeeClub.Application.Features.VottingSession.Commands.EditVotingSession;
 using CoffeeClub.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,8 @@ namespace CoffeeClub.Application.Profiles
         {
             CreateMap<Coffee, CoffeeDetailsVm>();
             CreateMap<CoffeeDetailsVm, Coffee>();
+            CreateMap<VotingSession, EditVotingSessionVm>().ReverseMap();
+
 
         }
     }
