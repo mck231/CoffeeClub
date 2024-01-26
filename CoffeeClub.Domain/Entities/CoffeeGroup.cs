@@ -11,6 +11,5 @@ namespace CoffeeClub.Domain.Entities
     {
         public Guid CoffeeGroupId { get; set; }
         public virtual ICollection<VotingSession> VotingSessions { get; set; } = new List<VotingSession>();
-        public virtual ICollection<GroupCoffeeVoting> GroupCoffeeVotings { get; set; } = new List<GroupCoffeeVoting>();
     }
 }

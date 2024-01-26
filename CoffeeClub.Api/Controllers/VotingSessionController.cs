@@ -1,4 +1,5 @@
-﻿using System;
+﻿/*
+using System;
 using System.Threading.Tasks;
 using CoffeeClub.Application.Features.VotingSession.Commands.CreateVotingSession;
 using CoffeeClub.Application.Features.VotingSession.Commands.DeleteVotingSession;
@@ -91,3 +92,4 @@ namespace CoffeeClub.Api.Controllers
         }
     }
 }
+*/

@@ -26,7 +26,6 @@ namespace CoffeeClub.Application.Features.VottingSession.Commands.CreateVotingSe
             {
                 CoffeeGroupId = request.CoffeeGroupId,
                 TeamId = request.TeamId,
-                WinningCoffeeId = null,
 
             };
 

@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CoffeeClub.Application.Features.Team.Queries.GetUsersInTeam;
+using CoffeeClub.Application.Features.User.Queries.GetUser;
 
 namespace CoffeeClub.Application.Profiles
 {
@@ -17,6 +19,9 @@ namespace CoffeeClub.Application.Profiles
             CreateMap<Coffee, CoffeeDetailsVm>();
             CreateMap<CoffeeDetailsVm, Coffee>();
             CreateMap<VotingSession, EditVotingSessionVm>().ReverseMap();
+
+            CreateMap<User, UserDetailsVm>();
+            CreateMap<UserDetailsVm, User>();
 
 
         }

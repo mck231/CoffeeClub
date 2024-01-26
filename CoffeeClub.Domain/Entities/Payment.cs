@@ -13,8 +13,6 @@ namespace CoffeeClub.Domain.Entities
         public Guid UserId { get; set; }
         public decimal Amount { get; set; }
         public DateTime PaymentDate { get; set; }
-        public Guid VotingSessionId { get; set; }
-        public virtual VotingSession VotingSession { get; set; } // Navigation property
 
     }
 }

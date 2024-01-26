@@ -12,10 +12,10 @@ namespace CoffeeClub.Domain.Entities
     {
         public Guid VoteId { get; set; }
         public Guid UserId { get; set; }
-        public virtual User User { get; set; } // Navigation property
+        public virtual User User { get; set; }
         public Guid CoffeeId { get; set; }
-        public virtual Coffee Coffee { get; set; } // Navigation property
+        public virtual Coffee Coffee { get; set; }
         public Guid VotingSessionId { get; set; }
-        public virtual VotingSession VotingSession { get; set; } // Navigation property
+        public virtual VotingSession VotingSession { get; set; }
     }
 }
