@@ -10,8 +10,10 @@ namespace CoffeeClub.Domain.Entities
     public class Team : AuditTableEntity
     {
         public Guid TeamId { get; set; }
-        public string Name { get; set; } = string.Empty;        
-        public virtual ICollection<Announcement> Announcements { get; set; } = new List<Announcement>(); 
+        public string Name { get; set; } = string.Empty;
+        public virtual ICollection<User> Members { get; set; } = new List<User>();
+        public virtual ICollection<Announcement> Announcements { get; set; } = new List<Announcement>();
+
 
     }
 }

@@ -20,7 +20,6 @@ public class VotingSessionRepository : BaseRepository<VotingSession>, IVotingSes
     public async Task<VotingSession> GetVotingSessionWithDetails(Guid sessionId)
     {
         var votingSession = await _dbContext.VoteSessions
-             .Include(vs => vs.CoffeeGroup)
              .Include(vs => vs.Votes)
              .SingleOrDefaultAsync(vs => vs.VotingSessionId == sessionId);
 
@@ -45,9 +44,6 @@ public class VotingSessionRepository : BaseRepository<VotingSession>, IVotingSes
         {
             throw new NotFoundException(nameof(Coffee), winningCoffeeId);
         }
-
-        // Update the WinningCoffeeId property in the votingSession object
-        votingSession.WinningCoffeeId = winningCoffeeId;
 
         // Call the base repository's UpdateAsync method to persist the changes
         await UpdateAsync(votingSession);

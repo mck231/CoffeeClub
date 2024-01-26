@@ -25,8 +25,7 @@ namespace CoffeeClub.Application.Features.Coffee.Commands.UpdateCoffee
 
             if (existingCoffee == null)
             {
-                // Coffee not found, handle the error or throw an exception
-                // For example:
+              
                 throw new NotFoundException(nameof(Coffee), request.Id);
             }
 
@@ -38,7 +37,6 @@ namespace CoffeeClub.Application.Features.Coffee.Commands.UpdateCoffee
             existingCoffee.Size = request.Size;
             existingCoffee.Origin = request.Origin;
             existingCoffee.RoastType = request.RoastType;
-            // Update other properties as needed
 
             await _coffeeRepository.UpdateAsync(existingCoffee);
 

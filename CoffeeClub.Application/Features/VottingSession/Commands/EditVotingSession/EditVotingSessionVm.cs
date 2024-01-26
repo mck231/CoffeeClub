@@ -10,7 +10,7 @@ namespace CoffeeClub.Application.Features.VottingSession.Commands.EditVotingSess
     public class EditVotingSessionVm
     {
         public Guid CoffeeGroupId { get; set; }
-        public ICollection<GroupCoffeeVoting> GroupCoffeeVotings { get; set; } 
+       // public ICollection<GroupCoffeeVoting> GroupCoffeeVotings { get; set; } 
         public ICollection<Vote> Votes { get; set; }
         public Guid? WinningCoffeeId { get; set; }
         public Guid TeamId { get; set; }       

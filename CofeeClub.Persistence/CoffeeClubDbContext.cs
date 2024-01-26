@@ -29,17 +29,20 @@ namespace CofeeClub.Persistence
         public DbSet<Announcement> Announcements { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<CoffeeGroup> CoffeeGroups { get; set; }
-        public DbSet<GroupCoffeeVoting> GroupCoffeeVotings { get; set; }
+        //public DbSet<GroupCoffeeVoting> GroupCoffeeVotings { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Apply configurations
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(CoffeeConfiguration).Assembly);
-         
+
+            // Configure decimal properties
             modelBuilder.Entity<Payment>()
                 .Property(p => p.Amount)
                 .HasColumnType("decimal(18, 2)");
 
+            // Configure relationships
             modelBuilder.Entity<Vote>()
                 .HasOne(v => v.VotingSession)
                 .WithMany(vs => vs.Votes)
@@ -51,24 +54,24 @@ namespace CofeeClub.Persistence
                 .WithMany()
                 .HasForeignKey(v => v.CoffeeId)
                 .OnDelete(DeleteBehavior.NoAction);
-            
+
+            modelBuilder.Entity<Team>()
+                .HasMany(t => t.Members)
+                .WithOne(u => u.Team)
+                .HasForeignKey(u => u.TeamId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Announcement>()
                 .HasOne(a => a.Team)
-                .WithMany()
+                .WithMany(t => t.Announcements)
                 .HasForeignKey(a => a.TeamId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<GroupCoffeeVoting>()
-                .HasOne(gcv => gcv.VotingSession)
-                .WithMany(vs => vs.GroupCoffeeVotings)
-                .HasForeignKey(gcv => gcv.VotingSessionId)
+            modelBuilder.Entity<CoffeeGroup>()
+                .HasMany(cg => cg.VotingSessions)
+                .WithOne(vs => vs.CoffeeGroup)
+                .HasForeignKey(vs => vs.CoffeeGroupId)
                 .OnDelete(DeleteBehavior.NoAction);
-
-            modelBuilder.Entity<Announcement>()
-               .HasOne(a => a.Team)
-               .WithMany(t => t.Announcements)
-               .HasForeignKey(a => a.TeamId);
 
 
             // seed data goes here
@@ -308,7 +311,6 @@ namespace CofeeClub.Persistence
                 StartDate = seedDate,
                 TeamId = AndroidsId,
                 EndDate = seedDate.AddDays(5),
-                WinningCoffeeId = coffee1.CoffeeId
             };
 
             var coffeeGroupData = new CoffeeGroup
@@ -323,13 +325,13 @@ namespace CofeeClub.Persistence
             var voteSessionCollection = new List<VotingSession> { votingSessionData };
             var coffeeCollection = new List<Coffee> { coffee1 };
 
-            var groupCoffeeVotingData = new GroupCoffeeVoting
+            /*var groupCoffeeVotingData = new GroupCoffeeVoting
             {
                 GroupCoffeeVotingId = Guid.Parse("829E15AE-A92D-48BA-8519-2FB437736A19"),
                 CoffeeGroupId = Guid.Parse("9E342BAF-5E4D-43A4-8A3E-E657B598CB98"),
                 CoffeeId = coffee1.CoffeeId,
                 VotingSessionId = votingSessionId
-            };
+            };*/
 
             //----------------------------------------------------------
 
@@ -343,7 +345,7 @@ namespace CofeeClub.Persistence
 
             modelBuilder.Entity<VotingSession>().HasData(votingSessionData);
 
-            modelBuilder.Entity<GroupCoffeeVoting>().HasData(groupCoffeeVotingData);
+           // modelBuilder.Entity<GroupCoffeeVoting>().HasData(groupCoffeeVotingData);
 
 
             modelBuilder.Entity<Vote>().HasData(
@@ -391,9 +393,9 @@ namespace CofeeClub.Persistence
             );
 
             modelBuilder.Entity<Payment>().HasData(
-            new Payment { PaymentId = Guid.Parse("40C4591E-FF90-4CD3-8FF7-4582F2392883"), UserId = marco.UserId, Amount = 10.99m, PaymentDate = seedDate, VotingSessionId = votingSessionId },
-            new Payment { PaymentId = Guid.Parse("57200C32-3250-4C60-9090-720027577EF4"), UserId = sarah.UserId, Amount = 15.99m, PaymentDate = seedDate, VotingSessionId = votingSessionId },
-            new Payment { PaymentId = Guid.Parse("089F7464-800E-4A19-8254-E62A470183FD"), UserId = mike.UserId, Amount = 8.99m, PaymentDate = seedDate, VotingSessionId = votingSessionId }
+            new Payment { PaymentId = Guid.Parse("40C4591E-FF90-4CD3-8FF7-4582F2392883"), UserId = marco.UserId, Amount = 10.99m, PaymentDate = seedDate},
+            new Payment { PaymentId = Guid.Parse("57200C32-3250-4C60-9090-720027577EF4"), UserId = sarah.UserId, Amount = 15.99m, PaymentDate = seedDate},
+            new Payment { PaymentId = Guid.Parse("089F7464-800E-4A19-8254-E62A470183FD"), UserId = mike.UserId, Amount = 8.99m, PaymentDate = seedDate}
             );
 
 

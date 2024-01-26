@@ -12,7 +12,7 @@ namespace CoffeeClub.Domain.Entities
         public Guid AnnouncementId { get; set; }
         public string Message { get; set; } = string.Empty;
         public DateTime AnnouncementDate { get; set; }
-        public Guid TeamId { get; set; } // Team foreign key
-        public virtual Team Team { get; set; } = default!; // Navigation property to Team
+        public Guid TeamId { get; set; }
+        public virtual Team Team { get; set; }
     }
 }
