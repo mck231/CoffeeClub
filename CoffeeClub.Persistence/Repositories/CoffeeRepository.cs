@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CofeeClub.Persistence.Repositories
+namespace CoffeeClub.Persistence.Repositories
 {
     public class CoffeeRepository : BaseRepository<Coffee>, ICoffeeRepository
     {

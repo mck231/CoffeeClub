@@ -2,7 +2,7 @@
 using CoffeeClub.Application.Contracts.Persistence;
 using CoffeeClub.Domain.Entities;
 
-namespace CofeeClub.Persistence.Repositories
+namespace CoffeeClub.Persistence.Repositories
 {
     public class CoffeeGroupRepository : BaseRepository<CoffeeGroup>, ICoffeeGroupRepository
     {

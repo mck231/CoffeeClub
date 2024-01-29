@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using CoffeeClub.Application.Contracts.Persistence;
-using CofeeClub.Persistence.Repositories;
+using CoffeeClub.Persistence.Repositories;
 
-namespace CofeeClub.Persistence
+namespace CoffeeClub.Persistence
 {
     public static class PersistenceServiceRegistration
     {

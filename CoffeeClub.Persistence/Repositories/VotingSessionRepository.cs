@@ -1,5 +1,5 @@
-﻿using CofeeClub.Persistence.Repositories;
-using CofeeClub.Persistence;
+﻿using CoffeeClub.Persistence.Repositories;
+using CoffeeClub.Persistence;
 using CoffeeClub.Application.Contracts.Persistence;
 using CoffeeClub.Application.Exceptions;
 using CoffeeClub.Domain.Entities;

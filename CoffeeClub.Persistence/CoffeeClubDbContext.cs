@@ -1,5 +1,4 @@
-﻿using CofeeClub.Persistence.Configurations;
-using CoffeeClub.Application.Contracts;
+﻿using CoffeeClub.Application.Contracts;
 using CoffeeClub.Domain.Common;
 using CoffeeClub.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -7,8 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using CoffeeClub.Persistence.Configurations;
 
-namespace CofeeClub.Persistence
+namespace CoffeeClub.Persistence
 {
     public class CoffeeClubDbContext : DbContext
     {

@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CofeeClub.Persistence\CofeeClub.Persistence.csproj" />
+    <ProjectReference Include="..\CoffeeClub.Persistence\CoffeeClub.Persistence.csproj" />
     <ProjectReference Include="..\CoffeeClub.Application\CoffeeClub.Application.csproj" />
     <ProjectReference Include="..\CoffeeClub.Infrastructure\CoffeeClub.Infrastructure.csproj" />
   </ItemGroup>

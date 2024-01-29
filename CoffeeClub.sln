@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{5DA94B3C-C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoffeeClub.Application.UnitTests", "CoffeeClub.Application.UnitTests\CoffeeClub.Application.UnitTests.csproj", "{263091DF-FA28-44D0-A067-EAD2053E3DD1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CofeeClub.Persistence", "CofeeClub.Persistence\CofeeClub.Persistence.csproj", "{6381ACA0-C3F9-4830-8058-32D77AD26D76}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoffeeClub.Persistence", "CoffeeClub.Persistence\CoffeeClub.Persistence.csproj", "{6381ACA0-C3F9-4830-8058-32D77AD26D76}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoffeeClub.Api", "CoffeeClub.Api\CoffeeClub.Api.csproj", "{4CF90C87-716B-43B3-B58C-30E9D4FC8D6C}"
 EndProject

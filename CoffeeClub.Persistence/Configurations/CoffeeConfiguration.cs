@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CofeeClub.Persistence.Configurations
+namespace CoffeeClub.Persistence.Configurations
 {
     public class CoffeeConfiguration : IEntityTypeConfiguration<Coffee>
     {
