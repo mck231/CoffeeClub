@@ -9,5 +9,6 @@ namespace CoffeeClub.Application.Features.Team.Queries.GetTeam
     public class TeamVm
     {
         public string Name { get; set; }
+        public List<TeamMembersVm> Members {get; set; }
     }
 }

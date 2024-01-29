@@ -29,7 +29,7 @@ namespace CofeeClub.Persistence
         public DbSet<Announcement> Announcements { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<CoffeeGroup> CoffeeGroups { get; set; }
-        //public DbSet<GroupCoffeeVoting> GroupCoffeeVotings { get; set; }
+        public DbSet<CoffeeSelection> CoffeeSelections { get; set; } // Add this line
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -68,10 +68,24 @@ namespace CofeeClub.Persistence
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<CoffeeGroup>()
-                .HasMany(cg => cg.VotingSessions)
+                .HasMany(cg => cg.CoffeeSelections)
                 .WithOne(vs => vs.CoffeeGroup)
                 .HasForeignKey(vs => vs.CoffeeGroupId)
                 .OnDelete(DeleteBehavior.NoAction);
+            
+            modelBuilder.Entity<CoffeeSelection>()
+                .HasKey(cs => new { cs.CoffeeGroupId, cs.CoffeeId }); // Composite Key
+
+            modelBuilder.Entity<CoffeeSelection>()
+                .HasOne(cs => cs.CoffeeGroup)
+                .WithMany(cg => cg.CoffeeSelections)
+                .HasForeignKey(cs => cs.CoffeeGroupId);
+
+            modelBuilder.Entity<CoffeeSelection>()
+                .HasOne(cs => cs.Coffee)
+                .WithMany()
+                .HasForeignKey(cs => cs.CoffeeId);
+
 
 
             // seed data goes here

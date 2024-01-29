@@ -25,5 +25,11 @@ namespace CofeeClub.Persistence.Repositories
             
             return await _dbContext.Users.Where(u => u.TeamId == teamId).ToListAsync();
         }
+        public async Task<Team> GetByIdWithMembersAsync(Guid teamId)
+        {
+            return await _dbContext.Teams
+                .Include(t => t.Members)
+                .FirstOrDefaultAsync(t => t.TeamId == teamId);
+        }
     }
 }

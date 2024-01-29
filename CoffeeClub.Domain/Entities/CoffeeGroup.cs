@@ -10,6 +10,6 @@ namespace CoffeeClub.Domain.Entities
     public class CoffeeGroup: AuditTableEntity
     {
         public Guid CoffeeGroupId { get; set; }
-        public virtual ICollection<VotingSession> VotingSessions { get; set; } = new List<VotingSession>();
+        public virtual ICollection<CoffeeSelection> CoffeeSelections { get; set; }
     }
 }

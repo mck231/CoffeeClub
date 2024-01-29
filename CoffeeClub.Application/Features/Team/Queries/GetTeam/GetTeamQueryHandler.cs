@@ -20,8 +20,7 @@ namespace CoffeeClub.Application.Features.Team.Queries.GetTeam
 
         public async Task<TeamVm> Handle(GetTeamQuery request, CancellationToken cancellationToken)
         {
-            var team = await _teamRepository.GetByIdAsync(request.TeamId);
-
+            var team = await _teamRepository.GetByIdWithMembersAsync(request.TeamId);
             if (team == null)
             {
                 throw new NotFoundException(nameof(Team), request.TeamId);
@@ -30,10 +29,16 @@ namespace CoffeeClub.Application.Features.Team.Queries.GetTeam
             var teamVm = new TeamVm
             {
                 Name = team.Name,
+                Members = team.Members.Select(m => new TeamMembersVm
+                {
+                    Name = m.Name,
+                    IsLeader = m.IsLeader
+                }).ToList()
             };
 
             return teamVm;
         }
+
         
     }
 }
