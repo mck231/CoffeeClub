@@ -4,6 +4,6 @@ namespace CoffeeClub.Application.Features.CoffeeSelection.Queries.GetCoffeeSelec
 
 public class GetCoffeeSelectionByIdQuery : IRequest<CoffeeSelectionVm>
 {
-    public required Guid CoffeeSelectionId { get; set; }
+    public required Guid CoffeeGroupId { get; set; }
 
 }

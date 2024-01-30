@@ -1,0 +1,179 @@
+@page "/Voting"
+@using BlazorVotingApp.Models
+@inject HttpClient Http
+@rendermode InteractiveServer
+@inject IJSRuntime JSRuntime
+
+<h3>Voting</h3>
+
+<div>
+    <label>Select Team:</label>
+    <select @onchange="OnTeamSelected">
+        <option value="">--Select a Team--</option>
+        @foreach (var team in Teams)
+        {
+            <option value="@team.TeamId.ToString()">@team.Name</option>
+        }
+    </select>
+</div>
+
+@if (!string.IsNullOrEmpty(SelectedTeamId))
+{
+    <div>
+        <label>Select User:</label>
+        <select @onchange="OnUserSelected">
+            <option value="">--Select a User--</option>
+            @foreach (var user in TeamMembers)
+            {
+                <option value="@user.UserId.ToString()">@user.Name</option>
+            }
+        </select>
+    </div>
+}
+
+@if (IsVotingSessionActive)
+{
+    <h3>Voting</h3>
+
+    @if (!HasVoted)
+    {
+        <div>
+            @foreach (var coffee in CoffeeSelections)
+            {
+                <input type="radio" id="@coffee.CoffeeId" name="coffeeVote" @bind="@SelectedCoffeeId" value="@coffee.CoffeeId" />
+                <label for="@coffee.CoffeeId">@coffee.Name</label><br />
+            }
+            <button @onclick="SubmitVote">Submit Vote</button>
+        </div>
+    }
+    else
+    {
+        <h4>Message Board</h4>
+        <!-- SignalR message board goes here -->
+        <!-- This will be updated in real-time as votes are cast -->
+    }
+}
+
+@code {
+    private string SelectedTeamId = string.Empty;
+    private Guid SelectedUserId = Guid.Empty;
+    private bool IsVotingSessionActive = false;
+
+    private List<CoffeeSelection> CoffeeSelections = new List<CoffeeSelection>();
+    private List<Team> Teams = new List<Team>();
+    private List<User> TeamMembers = new List<User>();
+
+    private bool HasVoted = false;
+    private Guid SelectedCoffeeId;
+
+    
+    protected override async Task OnInitializedAsync()
+    {
+        await FetchTeams();
+    }
+
+    private async Task FetchTeams()
+    {
+        var response = await Http.GetAsync("api/Team/getTeams");
+        if (response.IsSuccessStatusCode)
+        {
+            Teams = await response.Content.ReadFromJsonAsync<List<Team>>();
+        }
+        else
+        {
+            // Handle error
+        }
+    }
+
+    private async Task OnTeamSelected(ChangeEventArgs e)
+    {
+        SelectedTeamId = e.Value?.ToString() ?? string.Empty;
+        if (Guid.TryParse(SelectedTeamId, out Guid teamId))
+        {
+            await FetchTeamMembers(teamId);
+        }
+    }
+
+    private async Task FetchTeamMembers(Guid teamId)
+    {
+        var response = await Http.GetAsync($"api/Team?teamId={teamId}");
+        if (response.IsSuccessStatusCode)
+        {
+            var team = await response.Content.ReadFromJsonAsync<Team>();
+            TeamMembers = team.Members.Select(m => new User 
+            { 
+                UserId = m.UserId, 
+                Name = m.Name 
+            }).ToList();
+        }
+        else
+        {
+            // Handle error
+        }
+    }
+
+
+    private async Task OnUserSelected(ChangeEventArgs e)
+    {
+        if (Guid.TryParse(e.Value?.ToString(), out Guid userId))
+        {
+            SelectedUserId = userId;
+            await CheckVotingSession();
+        }
+    }
+
+    private async Task CheckVotingSession()
+    {
+        // Here you'll need to implement an API call to check if a voting session is active
+        // and if the selected user is eligible to vote.
+        // For now, it's just set to true for demonstration.
+        await GetTeamVotingSession();
+        IsVotingSessionActive = true; // This should be set based on the response from your API
+    }
+
+    private async Task GetTeamVotingSession()
+    {
+        var response = await Http.GetAsync("$api/CoffeeSelection/{}");
+        if (response.IsSuccessStatusCode)
+        {
+            Teams = await response.Content.ReadFromJsonAsync<>();
+        }
+    }
+
+    private async Task FetchCoffeeOptions()
+    {
+        var response = await Http.GetAsync("$api/CoffeeSelection/{}");
+        if (response.IsSuccessStatusCode)
+        {
+            Teams = await response.Content.ReadFromJsonAsync<List<Team>>();
+        }
+    }
+    
+    private async Task SubmitVote()
+    {
+        // Send the selected coffee ID to the server
+        // Replace with your API endpoint and method
+        var response = await Http.PostAsJsonAsync("api/Vote", new { CoffeeId = SelectedCoffeeId, UserId = SelectedUserId });
+
+        if (response.IsSuccessStatusCode)
+        {
+            HasVoted = true;
+
+            // Initialize SignalR connection for real-time updates
+            await InitializeSignalR();
+        }
+        else
+        {
+            // Handle error
+        }
+    }
+
+    private async Task InitializeSignalR()
+    {
+        // Ensure the path to the JavaScript file is correct
+        // Typically, this should be a root-relative path
+        var module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", new object[] { "/javascript/signalr.js" });
+        await module.InvokeVoidAsync("initializeSignalR", "/votingHub");
+    }
+
+}

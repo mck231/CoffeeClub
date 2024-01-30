@@ -24,6 +24,7 @@ namespace CoffeeClub.Persistence
             services.AddScoped<ICoffeeGroupRepository, CoffeeGroupRepository>();
             services.AddScoped<ITeamRepository, TeamRepository>();
             services.AddScoped<IVotingSessionRepository, VotingSessionRepository>();
+            services.AddScoped<ICoffeeSelectionRepository, CoffeeSelectionRepository>();
 
             return services;
         }

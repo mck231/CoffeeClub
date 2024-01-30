@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using CoffeeClub.Application.Contracts.Persistence;
 using CoffeeClub.Application.Exceptions;
-using CoffeeClub.Application.Features.VottingSession.Queries.GetVotingSession;
+using CoffeeClub.Application.Features.VotingSession.Queries.GetVotingSession;
 using MediatR;
 using System;
 using System.Threading;

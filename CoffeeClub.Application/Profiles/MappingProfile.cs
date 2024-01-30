@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CoffeeClub.Application.Features.Team.Queries.GetUsersInTeam;
 using CoffeeClub.Application.Features.User.Queries.GetUser;
+using CoffeeClub.Application.Features.VotingSession.Queries.GetVotingSession;
 
 namespace CoffeeClub.Application.Profiles
 {
@@ -22,6 +23,9 @@ namespace CoffeeClub.Application.Profiles
 
             CreateMap<User, UserDetailsVm>();
             CreateMap<UserDetailsVm, User>();
+
+            CreateMap<VotingSession, VotingSessionVm>();
+            CreateMap<VotingSessionVm, VotingSession>();
 
 
         }

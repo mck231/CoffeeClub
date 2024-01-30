@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CoffeeClub.Application.Exceptions;
 
 namespace CoffeeClub.Persistence.Repositories
 {
@@ -27,9 +28,15 @@ namespace CoffeeClub.Persistence.Repositories
         }
         public async Task<Team> GetByIdWithMembersAsync(Guid teamId)
         {
-            return await _dbContext.Teams
+            var teams = await _dbContext.Teams
                 .Include(t => t.Members)
                 .FirstOrDefaultAsync(t => t.TeamId == teamId);
+            if (teams is null)
+            {
+                throw new NotFoundException(nameof(Team), teamId);
+            }
+
+            return teams;
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CoffeeClub.Application.Features.VottingSession.Queries.GetVotingSession
+namespace CoffeeClub.Application.Features.VotingSession.Queries.GetVotingSession
 {
     public class VotingSessionVm
     {
@@ -12,7 +12,6 @@ namespace CoffeeClub.Application.Features.VottingSession.Queries.GetVotingSessio
         public Guid CoffeeGroupId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public string? WinningCoffee { get; set; }
         public Guid TeamId { get; set; }
     }
 }

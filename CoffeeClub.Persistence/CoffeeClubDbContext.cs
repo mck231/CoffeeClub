@@ -339,14 +339,16 @@ namespace CoffeeClub.Persistence
             var voteSessionCollection = new List<VotingSession> { votingSessionData };
             var coffeeCollection = new List<Coffee> { coffee1 };
 
-            /*var groupCoffeeVotingData = new GroupCoffeeVoting
+            var coffeeGroupGuid = Guid.Parse("9E342BAF-5E4D-43A4-8A3E-E657B598CB98");
+            var coffeeSelections = new List<CoffeeSelection>
             {
-                GroupCoffeeVotingId = Guid.Parse("829E15AE-A92D-48BA-8519-2FB437736A19"),
-                CoffeeGroupId = Guid.Parse("9E342BAF-5E4D-43A4-8A3E-E657B598CB98"),
-                CoffeeId = coffee1.CoffeeId,
-                VotingSessionId = votingSessionId
-            };*/
-
+                new CoffeeSelection { CoffeeGroupId = coffeeGroupGuid, CoffeeId = Guid.Parse("1BFA7E55-EE70-41DE-9049-1896D20D9DA3") },
+                new CoffeeSelection { CoffeeGroupId = coffeeGroupGuid, CoffeeId = Guid.Parse("A07E3F88-57B8-4D26-889D-48B1CD2FDC08") },
+                new CoffeeSelection { CoffeeGroupId = coffeeGroupGuid, CoffeeId = Guid.Parse("C510D21F-39F2-4A48-926E-7A9B2130FD2C") },
+                new CoffeeSelection { CoffeeGroupId = coffeeGroupGuid, CoffeeId = Guid.Parse("2E6C6636-291D-42CA-816E-A48C6210693C") },
+                new CoffeeSelection { CoffeeGroupId = coffeeGroupGuid, CoffeeId = Guid.Parse("0668D9A2-C2D3-40CA-AB86-C41E897B1F51") },
+                new CoffeeSelection { CoffeeGroupId = coffeeGroupGuid, CoffeeId = Guid.Parse("D32A4938-7DB8-40CC-9AC9-E3503EFC7507") }
+            };
             //----------------------------------------------------------
 
             // Add other model configurations here
@@ -356,6 +358,9 @@ namespace CoffeeClub.Persistence
             );
 
             modelBuilder.Entity<CoffeeGroup>().HasData(coffeeGroupData);
+            
+            modelBuilder.Entity<CoffeeSelection>().HasData(coffeeSelections);
+
 
             modelBuilder.Entity<VotingSession>().HasData(votingSessionData);
 

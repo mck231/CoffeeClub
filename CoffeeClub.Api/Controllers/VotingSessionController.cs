@@ -20,6 +20,13 @@ namespace CoffeeClub.Api.Controllers
         {
             _mediator = mediator;
         }
+        
+        [HttpGet("getVotingSessionDetails")]
+        public async Task<IActionResult> GetVotingSessionDetails(Guid voteSessionId)
+        {
+            var votingSession = await _mediator.Send(new GetVotingSessionQuery() { VotingSessionId = voteSessionId});
+            return Ok(votingSession);
+        }
 
         /*[HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]

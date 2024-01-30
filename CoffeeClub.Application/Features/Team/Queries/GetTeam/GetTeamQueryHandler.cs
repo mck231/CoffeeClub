@@ -31,6 +31,7 @@ namespace CoffeeClub.Application.Features.Team.Queries.GetTeam
                 Name = team.Name,
                 Members = team.Members.Select(m => new TeamMembersVm
                 {
+                    UserId = m.UserId,
                     Name = m.Name,
                     IsLeader = m.IsLeader
                 }).ToList()

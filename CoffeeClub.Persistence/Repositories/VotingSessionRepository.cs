@@ -21,6 +21,8 @@ public class VotingSessionRepository : BaseRepository<VotingSession>, IVotingSes
     {
         var votingSession = await _dbContext.VoteSessions
              .Include(vs => vs.Votes)
+             .Include(c => c.CoffeeGroup)
+             .Include(t => t.Team)
              .SingleOrDefaultAsync(vs => vs.VotingSessionId == sessionId);
 
         if (votingSession == null)
@@ -69,4 +71,12 @@ public class VotingSessionRepository : BaseRepository<VotingSession>, IVotingSes
         // Call the base repository's UpdateAsync method to persist the changes
         await UpdateAsync(votingSession);
     }
+    
+    public async Task<VotingSession> GetVotingSessionWithVotes(Guid votingSessionId)
+    {
+        return await _dbContext.VoteSessions
+            .Include(vs => vs.Votes)
+            .FirstOrDefaultAsync(vs => vs.VotingSessionId == votingSessionId);
+    }
+
 }

@@ -1,4 +1,4 @@
-﻿using CoffeeClub.Application.Features.VottingSession.Queries.GetVotingSession;
+﻿using CoffeeClub.Application.Features.VotingSession.Queries.GetVotingSession;
 using CoffeeClub.Domain.Entities;
 using MediatR;
 using System;

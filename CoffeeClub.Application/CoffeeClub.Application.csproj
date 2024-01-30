@@ -30,7 +30,6 @@
     <None Remove="Features\VottingSession\Commands\CreateVotingSession\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Features\CoffeeSelection\Commands\" />
     <Folder Include="Features\Coffee\Commands\DeleteCoffee\" />
     <Folder Include="Features\CoffeeGroup\" />
     <Folder Include="Features\CoffeeGroup\Commands\" />

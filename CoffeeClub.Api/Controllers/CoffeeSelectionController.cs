@@ -1,3 +1,6 @@
+using CoffeeClub.Application.Features.CoffeeSelection.Commands.BulkAddCoffeeSelections;
+using CoffeeClub.Application.Features.CoffeeSelection.Queries.GetAllCoffeeSelections;
+using CoffeeClub.Application.Features.CoffeeSelection.Queries.GetCoffeeSelection;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +21,7 @@ public class CoffeeSelectionController : ControllerBase
     public async Task<IActionResult> GetCoffeeSelectionById(Guid id)
     {
         // Assuming you have a GetCoffeeSelectionByIdQuery
-        var coffeeSelection = await _mediator.Send(new GetCoffeeSelectionByIdQuery(id));
+        var coffeeSelection = await _mediator.Send(new GetCoffeeSelectionByIdQuery() {CoffeeGroupId = id});
         return Ok(coffeeSelection);
     }
 
@@ -38,7 +41,7 @@ public class CoffeeSelectionController : ControllerBase
         return NoContent(); // or return Created response if appropriate
     }
 
-    [HttpPut("{id}")]
+    /*[HttpPut("{id}")]
     public async Task<IActionResult> UpdateCoffeeSelection(Guid id, [FromBody] UpdateCoffeeSelectionCommand command)
     {
         if (id != command.CoffeeSelectionId)
@@ -48,7 +51,7 @@ public class CoffeeSelectionController : ControllerBase
 
         await _mediator.Send(command);
         return NoContent();
-    }
+    }*/
 
 
 }
