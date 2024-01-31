@@ -11,11 +11,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{5DA94B3C-C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoffeeClub.Application.UnitTests", "CoffeeClub.Application.UnitTests\CoffeeClub.Application.UnitTests.csproj", "{263091DF-FA28-44D0-A067-EAD2053E3DD1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CofeeClub.Persistence", "CofeeClub.Persistence\CofeeClub.Persistence.csproj", "{6381ACA0-C3F9-4830-8058-32D77AD26D76}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoffeeClub.Persistence", "CoffeeClub.Persistence\CoffeeClub.Persistence.csproj", "{6381ACA0-C3F9-4830-8058-32D77AD26D76}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoffeeClub.Api", "CoffeeClub.Api\CoffeeClub.Api.csproj", "{4CF90C87-716B-43B3-B58C-30E9D4FC8D6C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeClub.Infrastructure", "CoffeeClub.Infrastructure\CoffeeClub.Infrastructure.csproj", "{467C94F1-6999-446B-95C1-34EC9352AAEF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UserInterface", "UserInterface", "{4289473E-A15C-4E20-A48D-2B1B4725EF52}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorVotingApp", "BlazorVotingApp\BlazorVotingApp.csproj", "{C58B3408-59D9-4DE7-86F8-B2BC6500D75D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,12 +51,17 @@ Global
 		{467C94F1-6999-446B-95C1-34EC9352AAEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{467C94F1-6999-446B-95C1-34EC9352AAEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{467C94F1-6999-446B-95C1-34EC9352AAEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C58B3408-59D9-4DE7-86F8-B2BC6500D75D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C58B3408-59D9-4DE7-86F8-B2BC6500D75D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C58B3408-59D9-4DE7-86F8-B2BC6500D75D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C58B3408-59D9-4DE7-86F8-B2BC6500D75D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{263091DF-FA28-44D0-A067-EAD2053E3DD1} = {5DA94B3C-CEA4-4C5F-B417-C6A6463D34E3}
+		{C58B3408-59D9-4DE7-86F8-B2BC6500D75D} = {4289473E-A15C-4E20-A48D-2B1B4725EF52}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5279E179-3109-499D-8481-7F74A0339507}

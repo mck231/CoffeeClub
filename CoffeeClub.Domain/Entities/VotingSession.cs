@@ -16,6 +16,6 @@ namespace CoffeeClub.Domain.Entities
         public Guid TeamId { get; set; }
         public virtual Team Team { get; set; }
         public Guid CoffeeGroupId { get; set; }
-        public virtual CoffeeGroup CoffeeGroup { get; set; }
+        public virtual CoffeeGroup CoffeeGroup { get; set; } = default!;
     }
 }

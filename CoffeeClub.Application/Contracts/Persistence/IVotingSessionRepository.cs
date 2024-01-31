@@ -8,6 +8,8 @@ namespace CoffeeClub.Application.Contracts.Persistence
         Task<VotingSession> GetVotingSessionWithDetails(Guid sessionId);
         Task UpdateWinningCoffee(Guid sessionId, Guid winningCoffeeId);
         Task UpdateTeam(Guid sessionId, Guid teamId);
-    }
+        Task<VotingSession> GetVotingSessionWithVotes(Guid voteSessionId);
+        Task<IEnumerable<VotingSession>> GetTeamVotingSessions(Guid teamId);
+	}
 }
 

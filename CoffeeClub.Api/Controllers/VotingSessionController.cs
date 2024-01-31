@@ -1,11 +1,8 @@
-﻿/*
-using System;
+﻿using System;
 using System.Threading.Tasks;
-using CoffeeClub.Application.Features.VotingSession.Commands.CreateVotingSession;
-using CoffeeClub.Application.Features.VotingSession.Commands.DeleteVotingSession;
 using CoffeeClub.Application.Features.VotingSession.Commands.EditVotingSession;
 using CoffeeClub.Application.Features.VotingSession.Queries.GetVotingSession;
-using CoffeeClub.Application.Features.VotingSession.Queries.GetVotingSessionWithDetails;
+using CoffeeClub.Application.Features.VotingSession.Queries.GetVotingSessionsByTeam;
 using CoffeeClub.Application.Features.VottingSession.Commands.CreateVotingSession;
 using CoffeeClub.Domain.Entities;
 using MediatR;
@@ -24,42 +21,31 @@ namespace CoffeeClub.Api.Controllers
         {
             _mediator = mediator;
         }
+        
+        [HttpGet("getVotingSessionDetails")]
+        public async Task<IActionResult> GetVotingSessionDetails(Guid voteSessionId)
+        {
+            var votingSession = await _mediator.Send(new GetVotingSessionQuery() { VotingSessionId = voteSessionId});
+            return Ok(votingSession);
+        }
+        
+        [HttpGet("byTeam/{teamId}")]
+        public async Task<IActionResult> GetVotingSessionsByTeam(Guid teamId)
+        {
+            var votingSession = await _mediator.Send(new GetVotingSessionsByTeamQuery() { TeamId = teamId});
+            return Ok(votingSession);
+        }
 
-        [HttpPost]
+
+        /*[HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<Guid>> CreateVotingSession(CreateVotingSessionCommand command)
         {
             var sessionId = await _mediator.Send(command);
             return CreatedAtAction(nameof(GetVotingSession), new { id = sessionId }, sessionId);
-        }
+        }*/
 
-        [HttpPut("{id}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> EditVotingSession(Guid id, EditVotingSessionCommand command)
-        {
-            if (id != command.VotingSessionId)
-            {
-                return BadRequest();
-            }
-
-            await _mediator.Send(command);
-
-            return NoContent();
-        }
-
-        [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteVotingSession(Guid id)
-        {
-            var command = new DeleteVotingSessionCommand { VotingSessionId = id };
-            await _mediator.Send(command);
-
-            return NoContent();
-        }
-
-        [HttpGet("{id}", Name = "GetVotingSession")]
+        /*[HttpGet("{id}", Name = "GetVotingSession")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<VotingSessionVm>> GetVotingSession(Guid id)
@@ -73,23 +59,8 @@ namespace CoffeeClub.Api.Controllers
             }
 
             return Ok(result);
-        }
+        }*/
 
-        [HttpGet("details/{id}", Name = "GetVotingSessionWithDetails")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<VotingSessionDetailsVm>> GetVotingSessionWithDetails(Guid id)
-        {
-            var query = new GetVotingSessionWithDetailsQuery { VotingSessionId = id };
-            var result = await _mediator.Send(query);
-
-            if (result == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(result);
-        }
+       
     }
 }
-*/

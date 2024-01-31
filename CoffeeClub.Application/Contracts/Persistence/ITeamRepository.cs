@@ -10,6 +10,7 @@ namespace CoffeeClub.Application.Contracts.Persistence
     public interface ITeamRepository : IAsyncRepository<Team>
     {
         Task<List<User>> GetUsersInTeam(Guid teamId);
+        Task<Team> GetByIdWithMembersAsync(Guid teamId);
 
     }
 }

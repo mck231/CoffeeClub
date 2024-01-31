@@ -24,6 +24,8 @@ namespace CoffeeClub.Api.Controllers
             await _mediator.Send(command);
             return StatusCode(StatusCodes.Status201Created);
         }
+        
+        
     }
 }
 

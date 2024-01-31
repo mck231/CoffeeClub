@@ -6,7 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using CoffeeClub.Application;
-using CofeeClub.Persistence;
+using CoffeeClub.Persistence;
 using CoffeeClub.Infrastructure;
 using CoffeeClub.Application.Contracts;
 using CoffeeClub.Api.Services;
