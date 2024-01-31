@@ -79,4 +79,15 @@ public class VotingSessionRepository : BaseRepository<VotingSession>, IVotingSes
             .FirstOrDefaultAsync(vs => vs.VotingSessionId == votingSessionId);
     }
 
+    public async Task<IEnumerable<VotingSession>> GetTeamVotingSessions(Guid teamId)
+    {
+        return await _dbContext.VoteSessions.Where(x => x.TeamId == teamId)
+            .Select(y => new VotingSession
+            {
+                VotingSessionId = y.VotingSessionId,
+                CoffeeGroupId = y.CoffeeGroupId,
+                StartDate = y.StartDate,
+                EndDate = y.EndDate
+            }).ToListAsync();
+    }
 }

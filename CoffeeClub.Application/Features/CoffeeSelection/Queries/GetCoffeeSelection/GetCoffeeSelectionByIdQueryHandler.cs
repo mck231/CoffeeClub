@@ -28,7 +28,8 @@ public class GetCoffeeSelectionByIdQueryHandler : IRequestHandler<GetCoffeeSelec
             {
                 Name = cs.Coffee.Name,
                 Description = cs.Coffee.Description,
-                Price = cs.Coffee.Price
+                Price = cs.Coffee.Price,
+                CoffeeId = cs.CoffeeId
             })
         };
 

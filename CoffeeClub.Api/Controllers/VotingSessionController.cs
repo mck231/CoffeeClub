@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using CoffeeClub.Application.Features.VotingSession.Commands.EditVotingSession;
 using CoffeeClub.Application.Features.VotingSession.Queries.GetVotingSession;
+using CoffeeClub.Application.Features.VotingSession.Queries.GetVotingSessionsByTeam;
 using CoffeeClub.Application.Features.VottingSession.Commands.CreateVotingSession;
 using CoffeeClub.Domain.Entities;
 using MediatR;
@@ -27,6 +28,14 @@ namespace CoffeeClub.Api.Controllers
             var votingSession = await _mediator.Send(new GetVotingSessionQuery() { VotingSessionId = voteSessionId});
             return Ok(votingSession);
         }
+        
+        [HttpGet("byTeam/{teamId}")]
+        public async Task<IActionResult> GetVotingSessionsByTeam(Guid teamId)
+        {
+            var votingSession = await _mediator.Send(new GetVotingSessionsByTeamQuery() { TeamId = teamId});
+            return Ok(votingSession);
+        }
+
 
         /*[HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]

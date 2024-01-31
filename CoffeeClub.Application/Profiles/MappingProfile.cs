@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using CoffeeClub.Application.Features.Team.Queries.GetUsersInTeam;
 using CoffeeClub.Application.Features.User.Queries.GetUser;
 using CoffeeClub.Application.Features.VotingSession.Queries.GetVotingSession;
+using CoffeeClub.Application.Features.VotingSession.Queries.GetVotingSessionsByTeam;
 
 namespace CoffeeClub.Application.Profiles
 {
@@ -26,6 +27,10 @@ namespace CoffeeClub.Application.Profiles
 
             CreateMap<VotingSession, VotingSessionVm>();
             CreateMap<VotingSessionVm, VotingSession>();
+            
+            CreateMap<VotingSession, VotingSessionDetailsVm>();
+            CreateMap<List<VotingSession>, TeamVotingSessionsVm>()
+                .ForMember(dest => dest.VotingSessions, opt => opt.MapFrom(src => src));
 
 
         }
