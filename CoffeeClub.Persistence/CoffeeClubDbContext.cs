@@ -89,7 +89,7 @@ namespace CoffeeClub.Persistence
 
 
             // seed data goes here
-            var seedDate = new DateTime(2023, 5, 30); // Replace with the desired fixed date
+            var seedDate = new DateTime(2024, 1, 30); // Replace with the desired fixed date
             var seedDateThatsLater = seedDate.AddDays(1);
             //----------------------------------------------------------
             var coffee1 = new Coffee
@@ -324,7 +324,7 @@ namespace CoffeeClub.Persistence
                 VotingSessionId = votingSessionId,
                 StartDate = seedDate,
                 TeamId = AndroidsId,
-                EndDate = seedDate.AddDays(5),
+                EndDate = seedDate.AddDays(200),
             };
 
             var coffeeGroupData = new CoffeeGroup

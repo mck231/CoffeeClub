@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CoffeeClub.Api.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class VotingController : ControllerBase
 {
     private readonly IMediator _mediator;  // Assuming you're using MediatR

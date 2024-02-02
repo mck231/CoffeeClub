@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using CoffeeClub.Api.Hubs;
 using CoffeeClub.Application;
 using CoffeeClub.Persistence;
 using CoffeeClub.Infrastructure;
@@ -23,6 +24,7 @@ namespace CoffeeClub.Api
             builder.Services.AddApplicationServices();
             builder.Services.AddInfrastructureService(builder.Configuration);
             builder.Services.AddPersistenceServices(builder.Configuration);
+            builder.Services.AddSignalR();
 
             builder.Services.AddScoped<ILoggedInUserService, LoggedInUserService>();
 
@@ -48,15 +50,23 @@ namespace CoffeeClub.Api
                 });
             }
             app.UseHttpsRedirection();
+            
+            
 
             app.UseRouting();
+            app.UseCors("Open");
 
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseCustomExceptionHandler();
-
-            app.UseCors("Open");            
+            
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapHub<VotingHub>("/votinghub"); // Map the VotingHub
+            });
+            
 
             return app;
         }

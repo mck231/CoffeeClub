@@ -2,6 +2,7 @@
 using CoffeeClub.Persistence;
 using CoffeeClub.Application.Contracts.Persistence;
 using CoffeeClub.Application.Exceptions;
+using CoffeeClub.Application.Models;
 using CoffeeClub.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -90,4 +91,43 @@ public class VotingSessionRepository : BaseRepository<VotingSession>, IVotingSes
                 EndDate = y.EndDate
             }).ToListAsync();
     }
+    
+    public async Task<List<CoffeeVote>> GetVoteCountsBySessionId(Guid votingSessionId)
+    {
+        Console.WriteLine("Update fetch");
+        // Assuming _dbContext.Database.GetDbConnection() is available and you can execute raw SQL queries.
+        var connection = _dbContext.Database.GetDbConnection();
+        var command = connection.CreateCommand();
+        command.CommandText = $@"
+        SELECT 
+            c.CoffeeId, 
+            c.Name AS CoffeeName, 
+            COUNT(v.VoteId) AS Votes 
+        FROM Votes v 
+        JOIN Coffees c ON v.CoffeeId = c.CoffeeId 
+        WHERE v.VotingSessionId = '{votingSessionId}' 
+        GROUP BY c.CoffeeId, c.Name";
+    
+        var coffeeVotes = new List<CoffeeVote>();
+        await connection.OpenAsync();
+        using (var result = await command.ExecuteReaderAsync())
+        {
+            while (await result.ReadAsync())
+            {
+                coffeeVotes.Add(new CoffeeVote
+                {
+                    CoffeeId = result.GetGuid(result.GetOrdinal("CoffeeId")),
+                    CoffeeName = result.GetString(result.GetOrdinal("CoffeeName")),
+                    Votes = result.GetInt32(result.GetOrdinal("Votes"))
+                });
+            }
+        }
+        await connection.CloseAsync();
+
+        return coffeeVotes;
+    }
+
+
+    
+    
 }

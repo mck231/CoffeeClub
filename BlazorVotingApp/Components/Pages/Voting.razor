@@ -1,5 +1,6 @@
 @page "/Voting"
 @using BlazorVotingApp.Models
+@using Microsoft.AspNetCore.SignalR.Client
 @inject HttpClient Http
 @rendermode InteractiveServer
 @inject IJSRuntime JSRuntime
@@ -29,7 +30,7 @@
         </select>
     </div>
 }
-
+<p>Selected Team id: @SelectedTeamId</p>
 @if (SelectedUserId != Guid.Empty)
 {
     @if (VotingSessions.VotingSessions != null && VotingSessions.VotingSessions.Any())
@@ -46,49 +47,101 @@
         </div>
     }
 }
-
- @if (IsVotingSessionActive && !HasVoted)
- {
-     <div>
-         <h3>Select Coffee:</h3>
-         @foreach (var coffee in CoffeeSummariesList)
-         {
-             <input type="radio" id="@coffee.CoffeeId" name="coffeeVote" 
-                    @onclick="@(() => SelectedCoffeeId = coffee.CoffeeId)" />
-             <label for="@coffee.CoffeeId">@coffee.Name</label><br />
-         }
-         <button @onclick="SubmitVote">Submit Vote</button>
-     </div>
- }
-
-
-@if (HasVoted)
+<p>Selected User id: @SelectedUserId</p>
+@if (IsVotingSessionActive && !HasVoted)
 {
-    <h4>Message Board</h4>
-    <!-- SignalR message board goes here -->
-    <!-- This will be updated in real-time as votes are cast -->
+    <div>
+        <h3>Select Coffee:</h3>
+        @foreach (var coffee in CoffeeSummariesList)
+        {
+            <input type="radio" id="@coffee.CoffeeId" name="coffeeVote" 
+                   value="@coffee.CoffeeId" @onclick="() => SelectCoffee(coffee.CoffeeId)" />
+            <label for="@coffee.CoffeeId">@coffee.Name</label><br />
+        }
+        <button @onclick="SubmitVote">Submit Vote</button>
+    </div>
 }
+<p>Is Voting active: @IsVotingSessionActive</p>
+<p>Has user voted: @HasVoted</p>
 
+@if (CoffeeVotes.Count > 0)
+{
+    <h4>Live Voting Results</h4>
+    <ul>
+        @foreach (var coffee in CoffeeVotes)
+        {
+            <li>@coffee.CoffeeName: @coffee.Votes</li>
+        }
+    </ul>
+}
+@if (CoffeeVotes.Count <= 0)
+{
+    <h4>No votes have been casted</h4>
+    
+}
+<p>Times called @Counter.ToString()</p>
 
 @code {
+    private HubConnection hubConnection;
     private string SelectedTeamId = string.Empty;
     private Guid SelectedUserId = Guid.Empty;
     private bool IsVotingSessionActive = false;
-
     private List<CoffeeSelection> CoffeeSelections = new List<CoffeeSelection>();
     private List<CoffeeSummary> CoffeeSummariesList = new List<CoffeeSummary>();
     private List<Team> Teams = new List<Team>();
     private List<User> TeamMembers = new List<User>();
     private TeamVotingSessions VotingSessions = new TeamVotingSessions();
-
+    private VotingSession SelectedSession = new VotingSession();
+    private List<CoffeeVote> CoffeeVotes = new List<CoffeeVote>(); 
     private bool HasVoted = false;
     private Guid SelectedCoffeeId;
 
-    
+    private int Counter = 0; 
     protected override async Task OnInitializedAsync()
     {
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl("https://localhost:7111/"+ ("votingHub"))
+            .Build();
+
+        hubConnection.On<List<CoffeeVote>>("ReceiveVoteUpdate", (updatedSummaries) =>
+        {
+            Counter++;
+            CoffeeVotes = updatedSummaries;
+            StateHasChanged();
+        });
+
+        await hubConnection.StartAsync();
         await FetchTeams();
     }
+
+    private async Task SubmitVote()
+    {
+        if (SelectedCoffeeId != Guid.Empty && hubConnection.State == HubConnectionState.Connected)
+        {
+            StateHasChanged();
+
+            await hubConnection.InvokeAsync("CastVote", SelectedSession.VotingSessionId, SelectedCoffeeId, SelectedUserId);
+            HasVoted = true; // Consider updating this based on successful voting and receiving updates
+            StateHasChanged();
+
+        }
+    }
+    
+    void SelectCoffee(Guid coffeeId)
+    {
+        SelectedCoffeeId = coffeeId;
+    }
+
+
+    
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection != null)
+        {
+            await hubConnection.DisposeAsync();
+        }
+    }
+
 
     private async Task FetchTeams()
     {
@@ -171,14 +224,25 @@
         var coffeeGroupIdStr = e.Value?.ToString();
         if (!string.IsNullOrEmpty(coffeeGroupIdStr) && Guid.TryParse(coffeeGroupIdStr, out Guid coffeeGroupId))
         {
-            await FetchCoffeeOptions(coffeeGroupId);
-            IsVotingSessionActive = true;
+            // Find the corresponding voting session based on the selected coffee group ID
+            SelectedSession = VotingSessions.VotingSessions.FirstOrDefault(session => session.CoffeeGroupId == coffeeGroupId);
+
+            if (SelectedSession != null)
+            {
+                await FetchCoffeeOptions(coffeeGroupId);
+                IsVotingSessionActive = true;
+            }
+            else
+            {
+                IsVotingSessionActive = false;
+            }
         }
         else
         {
             IsVotingSessionActive = false;
         }
     }
+
 
     private async Task FetchCoffeeOptions(Guid coffeeGroupId)
     {
@@ -195,11 +259,11 @@
     }
 
     
-    private async Task SubmitVote()
+    /*private async Task SubmitVote()
     {
         // Send the selected coffee ID to the server
         // Replace with your API endpoint and method
-        var response = await Http.PostAsJsonAsync("api/Vote", new { CoffeeId = SelectedCoffeeId, UserId = SelectedUserId });
+        var response = await Http.PostAsJsonAsync("api/Voting/castVote", new { CoffeeId = SelectedCoffeeId, UserId = SelectedUserId, SelectedSession.VotingSessionId});
 
         if (response.IsSuccessStatusCode)
         {
@@ -212,7 +276,7 @@
         {
             // Handle error
         }
-    }
+    }*/
 
     private async Task InitializeSignalR()
     {
