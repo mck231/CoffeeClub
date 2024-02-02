@@ -1,4 +1,5 @@
 ﻿using System;
+using CoffeeClub.Application.Models;
 using CoffeeClub.Domain.Entities;
 
 namespace CoffeeClub.Application.Contracts.Persistence
@@ -10,6 +11,7 @@ namespace CoffeeClub.Application.Contracts.Persistence
         Task UpdateTeam(Guid sessionId, Guid teamId);
         Task<VotingSession> GetVotingSessionWithVotes(Guid voteSessionId);
         Task<IEnumerable<VotingSession>> GetTeamVotingSessions(Guid teamId);
+        Task<List<CoffeeVote>> GetVoteCountsBySessionId(Guid voteSessionId);
 	}
 }
 

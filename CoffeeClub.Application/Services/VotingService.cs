@@ -1,6 +1,7 @@
 using CoffeeClub.Application.Contracts.Infrastructure;
 using CoffeeClub.Application.Contracts.Persistence;
 using CoffeeClub.Application.Exceptions;
+using CoffeeClub.Application.Models;
 using CoffeeClub.Domain.Entities;
 
 namespace CoffeeClub.Application.Services;
@@ -41,6 +42,12 @@ public class VotingService : IVotingService
         };
 
         await _voteRepository.AddAsync(vote);
+    }
+
+    public async Task<List<CoffeeVote>> GetUpdatedVotes(Guid votingSessionId)
+    {
+        return await _votingSessionRepository.GetVoteCountsBySessionId(votingSessionId);
+
     }
 
     private void ValidateVotingSession(VotingSession votingSession, Guid userId)
