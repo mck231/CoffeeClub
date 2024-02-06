@@ -4,82 +4,117 @@
 @inject HttpClient Http
 @rendermode InteractiveServer
 @inject IJSRuntime JSRuntime
-<h3>Voting</h3>
 
-<div>
-    <label>Select Team:</label>
-    <select @onchange="OnTeamSelected">
-        <option value="">--Select a Team--</option>
-        @foreach (var team in Teams)
-        {
-            <option value="@team.TeamId.ToString()">@team.Name</option>
-        }
-    </select>
-</div>
-
-@if (!string.IsNullOrEmpty(SelectedTeamId))
-{
-    <div>
-        <label>Select User:</label>
-        <select @onchange="OnUserSelected">
-            <option value="">--Select a User--</option>
-            @foreach (var user in TeamMembers)
-            {
-                <option value="@user.UserId.ToString()">@user.Name</option>
-            }
-        </select>
-    </div>
-}
-<p>Selected Team id: @SelectedTeamId</p>
-@if (SelectedUserId != Guid.Empty)
-{
-    @if (VotingSessions.VotingSessions != null && VotingSessions.VotingSessions.Any())
+<div class="container mt-4">
+    @if (DisplayAlert)
     {
-        <div>
-            <label>Select Voting Session:</label>
-            <select @onchange="OnVotingSessionSelected">
-                <option value="">--Select a Voting Session--</option>
-                @foreach (var session in VotingSessions.VotingSessions)
-                {
-                    <option value="@session.CoffeeGroupId.ToString()">@session.StartDate.ToShortDateString()</option>
-                }
-            </select>
+        <div class="alert alert-danger d-flex align-items-center alert-dismissible fade show" role="alert">
+            <div class="d-inline-flex">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                </svg>
+                <div class="some-alert-margin">
+                    <span>@AlertText</span>
+                </div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     }
-}
-<p>Selected User id: @SelectedUserId</p>
-@if (IsVotingSessionActive && !HasVoted)
-{
-    <div>
-        <h3>Select Coffee:</h3>
-        @foreach (var coffee in CoffeeSummariesList)
-        {
-            <input type="radio" id="@coffee.CoffeeId" name="coffeeVote" 
-                   value="@coffee.CoffeeId" @onclick="() => SelectCoffee(coffee.CoffeeId)" />
-            <label for="@coffee.CoffeeId">@coffee.Name</label><br />
-        }
-        <button @onclick="SubmitVote">Submit Vote</button>
-    </div>
-}
-<p>Is Voting active: @IsVotingSessionActive</p>
-<p>Has user voted: @HasVoted</p>
 
-@if (CoffeeVotes.Count > 0)
-{
-    <h4>Live Voting Results</h4>
-    <ul>
-        @foreach (var coffee in CoffeeVotes)
+    <h3 class="mb-3">Voting</h3>
+
+    @if (!HasVoted)
+    {
+        <!-- Voting Interface -->
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="teamSelect">Select Team:</label>
+                    <select id="teamSelect" class="form-control" @onchange="OnTeamSelected">
+                        <option value="">--Select a Team--</option>
+                        @foreach (var team in Teams)
+                        {
+                            <option value="@team.TeamId">@team.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            @if (!string.IsNullOrEmpty(SelectedTeamId))
+            {
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="userSelect">Select User:</label>
+                        <select id="userSelect" class="form-control" @onchange="OnUserSelected">
+                            <option value="">--Select a User--</option>
+                            @foreach (var user in TeamMembers)
+                            {
+                                <option value="@user.UserId">@user.Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            }
+
+            @if (SelectedUserId != Guid.Empty)
+            {
+                @if (VotingSessions.VotingSessions != null && VotingSessions.VotingSessions.Any())
+                {
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="sessionSelect">Select Voting Session:</label>
+                            <select id="sessionSelect" class="form-control" @onchange="OnVotingSessionSelected">
+                                <option value="">--Select a Voting Session--</option>
+                                @foreach (var session in VotingSessions.VotingSessions)
+                                {
+                                    <option value="@session.CoffeeGroupId">@session.StartDate.ToShortDateString()</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+
+        @if (IsVotingSessionActive && SelectedSession?.VotingSessionId != null)
         {
-            <li>@coffee.CoffeeName: @coffee.Votes</li>
+            <div class="mt-4">
+                <h4>Select Coffee:</h4>
+                <div class="d-flex flex-wrap">
+                    @foreach (var coffee in CoffeeSummariesList)
+                    {
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="@coffee.CoffeeId" name="coffeeVote"
+                                   value="@coffee.CoffeeId" @onclick="() => SelectCoffee(coffee.CoffeeId)"/>
+                            <label class="form-check-label" for="@coffee.CoffeeId">@coffee.Name</label>
+                        </div>
+                    }
+                </div>
+                <button class="btn btn-primary mt-3" @onclick="SubmitVote">Submit Vote</button>
+            </div>
         }
-    </ul>
-}
-@if (CoffeeVotes.Count <= 0)
-{
-    <h4>No votes have been casted</h4>
-    
-}
-<p>Times called @Counter.ToString()</p>
+    }
+    else
+    {
+        <!-- Live Voting Results -->
+        @if (CoffeeVotes != null && CoffeeVotes.Count > 0)
+        {
+            <div class="mt-4">
+                <h4>Live Voting Results</h4>
+                <ul class="list-group">
+                    @foreach (var coffee in CoffeeVotes)
+                    {
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            @coffee.CoffeeName
+                            <span class="result-badge">@coffee.Votes</span>
+                        </div>
+                    }
+                </ul>
+                <h5>Thank you for voting in this weeks Coffee selection @TeamMembers.Find(x => x.UserId == SelectedUserId).Name</h5>
+            </div>
+        }
+    }
+</div>
 
 @code {
     private HubConnection hubConnection;
@@ -92,48 +127,50 @@
     private List<User> TeamMembers = new List<User>();
     private TeamVotingSessions VotingSessions = new TeamVotingSessions();
     private VotingSession SelectedSession = new VotingSession();
-    private List<CoffeeVote> CoffeeVotes = new List<CoffeeVote>(); 
+    private List<CoffeeVote> CoffeeVotes = new List<CoffeeVote>();
     private bool HasVoted = false;
     private Guid SelectedCoffeeId;
+    
+    // this will be some error handling in the future.
+    private bool DisplayAlert = false;
+    private string AlertText = "";
 
-    private int Counter = 0; 
+
     protected override async Task OnInitializedAsync()
     {
         hubConnection = new HubConnectionBuilder()
-            .WithUrl("https://localhost:7111/"+ ("votingHub"))
+            .WithUrl("https://localhost:7111/" + ("votingHub"))
             .Build();
 
-        hubConnection.On<List<CoffeeVote>>("ReceiveVoteUpdate", (updatedSummaries) =>
+        hubConnection.On<List<CoffeeVote>>("ReceiveVoteUpdate", async (updatedSummaries) =>
         {
-            Counter++;
             CoffeeVotes = updatedSummaries;
-            StateHasChanged();
+            HasVoted = true;
+            await InvokeAsync(StateHasChanged);
+            StateHasChanged(); // Refresh UI with the updated votes.
         });
 
         await hubConnection.StartAsync();
         await FetchTeams();
     }
 
+
     private async Task SubmitVote()
     {
         if (SelectedCoffeeId != Guid.Empty && hubConnection.State == HubConnectionState.Connected)
         {
-            StateHasChanged();
-
             await hubConnection.InvokeAsync("CastVote", SelectedSession.VotingSessionId, SelectedCoffeeId, SelectedUserId);
-            HasVoted = true; // Consider updating this based on successful voting and receiving updates
-            StateHasChanged();
-
+            DisplayAlert = false;
         }
     }
-    
+
+
     void SelectCoffee(Guid coffeeId)
     {
         SelectedCoffeeId = coffeeId;
     }
 
 
-    
     public async ValueTask DisposeAsync()
     {
         if (hubConnection != null)
@@ -142,17 +179,12 @@
         }
     }
 
-
     private async Task FetchTeams()
     {
         var response = await Http.GetAsync("api/Team/getTeams");
         if (response.IsSuccessStatusCode)
         {
             Teams = await response.Content.ReadFromJsonAsync<List<Team>>();
-        }
-        else
-        {
-            // Handle error
         }
     }
 
@@ -171,18 +203,13 @@
         if (response.IsSuccessStatusCode)
         {
             var team = await response.Content.ReadFromJsonAsync<Team>();
-            TeamMembers = team.Members.Select(m => new User 
-            { 
-                UserId = m.UserId, 
-                Name = m.Name 
+            TeamMembers = team.Members.Select(m => new User
+            {
+                UserId = m.UserId,
+                Name = m.Name
             }).ToList();
         }
-        else
-        {
-            // Handle error
-        }
     }
-
 
     private async Task OnUserSelected(ChangeEventArgs e)
     {
@@ -197,11 +224,8 @@
 
     private async Task CheckVotingSession()
     {
-        // Here you'll need to implement an API call to check if a voting session is active
-        // and if the selected user is eligible to vote.
-        // For now, it's just set to true for demonstration.
         await FetchVotingSessionsForTeam();
-        IsVotingSessionActive = true; // This should be set based on the response from your API
+        IsVotingSessionActive = true;
     }
 
     private async Task FetchVotingSessionsForTeam()
@@ -210,15 +234,9 @@
         if (response.IsSuccessStatusCode)
         {
             VotingSessions = await response.Content.ReadFromJsonAsync<TeamVotingSessions>() ?? new TeamVotingSessions();
-            // Filter or validate sessions as needed
-            
-        }
-        else
-        {
-            // Handle error
         }
     }
-    
+
     private async Task OnVotingSessionSelected(ChangeEventArgs e)
     {
         var coffeeGroupIdStr = e.Value?.ToString();
@@ -243,7 +261,6 @@
         }
     }
 
-
     private async Task FetchCoffeeOptions(Guid coffeeGroupId)
     {
         var response = await Http.GetAsync($"api/CoffeeSelection/{coffeeGroupId}");
@@ -252,39 +269,6 @@
             var coffeeSelection = await response.Content.ReadFromJsonAsync<CoffeeSelection>();
             CoffeeSummariesList = coffeeSelection.Coffees.ToList();
         }
-        else
-        {
-            // Handle error
-        }
     }
-
-    
-    /*private async Task SubmitVote()
-    {
-        // Send the selected coffee ID to the server
-        // Replace with your API endpoint and method
-        var response = await Http.PostAsJsonAsync("api/Voting/castVote", new { CoffeeId = SelectedCoffeeId, UserId = SelectedUserId, SelectedSession.VotingSessionId});
-
-        if (response.IsSuccessStatusCode)
-        {
-            HasVoted = true;
-
-            // Initialize SignalR connection for real-time updates
-            await InitializeSignalR();
-        }
-        else
-        {
-            // Handle error
-        }
-    }*/
-
-    private async Task InitializeSignalR()
-    {
-        // Ensure the path to the JavaScript file is correct
-        // Typically, this should be a root-relative path
-        var module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", new object[] { "/javascript/signalr.js" });
-        await module.InvokeVoidAsync("initializeSignalR", "/votingHub");
-    }
-
 
 }

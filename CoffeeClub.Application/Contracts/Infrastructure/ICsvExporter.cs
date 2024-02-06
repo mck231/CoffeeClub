@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace CoffeeClub.Application.Contracts.Infrastructure
 {
-    public interface ICsvExporter
+    public interface ICsvExporter<T>
     {
-        // Fix this, probably needs a delegate or something??? --Marco Cabrera
-        byte[] ExportJsonDataToCsv(List<CoffeeDto> jsonDataExportDtos);
+        byte[] ExportJsonDataToCsv(List<T> jsonDataExportDtos);
 
     }
 }

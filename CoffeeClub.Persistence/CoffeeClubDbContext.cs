@@ -361,17 +361,8 @@ namespace CoffeeClub.Persistence
             
             modelBuilder.Entity<CoffeeSelection>().HasData(coffeeSelections);
 
-
             modelBuilder.Entity<VotingSession>().HasData(votingSessionData);
-
-           // modelBuilder.Entity<GroupCoffeeVoting>().HasData(groupCoffeeVotingData);
-
-
-            modelBuilder.Entity<Vote>().HasData(
-                new Vote { VoteId = voteId1, UserId = marco.UserId, CoffeeId = coffee1.CoffeeId, VotingSessionId = votingSessionId },
-                new Vote { VoteId = voteId2, UserId = sarah.UserId, CoffeeId = coffee2.CoffeeId, VotingSessionId = votingSessionId },
-                new Vote { VoteId = voteId3, UserId = mike.UserId, CoffeeId = coffee3.CoffeeId, VotingSessionId = votingSessionId }
-            );
+           
             modelBuilder.Entity<Team>().HasData(
                 new Team
                 {

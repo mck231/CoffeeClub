@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CoffeeClub.Infrastructure.FileExport
 {
-    public class CsvExporter : ICsvExporter
+    public class CsvExporter : ICsvExporter<CoffeeDto>
     {
         /// <summary>
         /// This exports data to CSV.

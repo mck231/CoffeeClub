@@ -1,0 +1,11 @@
+.result-badge {
+    background-color: #c2b9d3;
+    color: #1c1f23;
+    padding: 4px 8px;
+    text-align: center;
+    border-radius: 0.25rem;
+
+}
+.some-alert-margin {
+    margin-left: 10px !important;
+}

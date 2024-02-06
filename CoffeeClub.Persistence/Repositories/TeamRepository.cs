@@ -21,7 +21,7 @@ namespace CoffeeClub.Persistence.Repositories
             var team = await _dbContext.Teams.FindAsync(teamId);
             if (team == null)
             {
-                return new List<User>(); // or throw an exception indicating team not found
+                return new List<User>(); 
             }
             
             return await _dbContext.Users.Where(u => u.TeamId == teamId).ToListAsync();

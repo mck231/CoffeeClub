@@ -48,7 +48,6 @@ public class VotingSessionRepository : BaseRepository<VotingSession>, IVotingSes
             throw new NotFoundException(nameof(Coffee), winningCoffeeId);
         }
 
-        // Call the base repository's UpdateAsync method to persist the changes
         await UpdateAsync(votingSession);
     }
 
@@ -66,10 +65,7 @@ public class VotingSessionRepository : BaseRepository<VotingSession>, IVotingSes
             throw new NotFoundException(nameof(Team), teamId);
         }
 
-        // Update the TeamId property in the votingSession object
         votingSession.TeamId = teamId;
-
-        // Call the base repository's UpdateAsync method to persist the changes
         await UpdateAsync(votingSession);
     }
     
@@ -92,10 +88,14 @@ public class VotingSessionRepository : BaseRepository<VotingSession>, IVotingSes
             }).ToListAsync();
     }
     
+    /// <summary>
+    /// Retrieves all of the votes for the voting session
+    /// </summary>
+    /// <param name="votingSessionId">The voting session that will be analyzed for votes</param>
+    /// <returns></returns>
     public async Task<List<CoffeeVote>> GetVoteCountsBySessionId(Guid votingSessionId)
     {
-        Console.WriteLine("Update fetch");
-        // Assuming _dbContext.Database.GetDbConnection() is available and you can execute raw SQL queries.
+        // Doing this because CoffeeVote is not a domain model thus EF Core can not be used.
         var connection = _dbContext.Database.GetDbConnection();
         var command = connection.CreateCommand();
         command.CommandText = $@"
