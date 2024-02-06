@@ -54,17 +54,17 @@ public class VotingService : IVotingService
     {
         if (votingSession == null)
         {
-            throw new Exception("Voting session not found.");
+            throw new Exception($"Voting session not found. Voting Session Id: {votingSession.VotingSessionId}");
         }
 
         if (DateTime.Now < votingSession.StartDate || DateTime.Now > votingSession.EndDate)
         {
-            throw new Exception("Voting session is not active.");
+            throw new Exception($"Voting session is not active. Voting Session Id: {votingSession.VotingSessionId}");
         }
 
         if (votingSession.Votes.Any(v => v.UserId == userId))
         {
-            throw new Exception("User has already voted in this session.");
+            throw new Exception($"User has already voted in this session. UserId: {userId}");
         }
     }
 

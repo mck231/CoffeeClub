@@ -17,18 +17,23 @@ public class VotingHub : Hub
         try
         {
             await _votingService.ProcessVote(votingSessionId, coffeeId, userId);
-        
+
             var updatedVotes = await _votingService.GetUpdatedVotes(votingSessionId);
-        
+
             await Clients.All.SendAsync("ReceiveVoteUpdate", updatedVotes);
         }
         catch (Exception ex)
         {
-            // Log the exception details
+            // Log and handle unexpected exceptions
             Console.WriteLine($"Error in CastVote: {ex.Message}");
-            // Optionally, send error details back to the client
-            await Clients.Caller.SendAsync("ReceiveVoteError", ex.Message);
+            await Clients.Caller.SendAsync("ReceiveVoteError", "An unexpected error occurred.");
         }
+    }
+    
+    public async Task GetCurrentVotingResults(Guid sessionId)
+    {
+        var updatedVotes = await _votingService.GetUpdatedVotes(sessionId);
+        await Clients.Caller.SendAsync("ReceiveVoteUpdate", updatedVotes);
     }
 
 }

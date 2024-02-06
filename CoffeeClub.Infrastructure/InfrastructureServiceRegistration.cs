@@ -1,4 +1,5 @@
 ﻿using CoffeeClub.Application.Contracts.Infrastructure;
+using CoffeeClub.Application.Features.Coffee.Queries.GetCoffee;
 using CoffeeClub.Infrastructure.FileExport;
 using CoffeeClub.Infrastructure.Mail;
 using Microsoft.Extensions.Configuration;
@@ -14,8 +15,7 @@ namespace CoffeeClub.Infrastructure
             services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
 
             services.AddTransient<IEmailService, EmailService>();
-            services.AddTransient<ICsvExporter, CsvExporter>();
-            //services.AddSingleton<>
+            services.AddTransient<ICsvExporter<CoffeeDto>, CsvExporter>();
 
             return services;
         }
