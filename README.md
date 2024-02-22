@@ -6,7 +6,7 @@ The Coffee Club application simulates a coffee club at work, where employees can
 
 The application follows a clean architecture pattern, which consists of the following layers:
 
-- **Presentation Layer**: This layer includes the ASP.NET Core Web API project (`CoffeeClub.Api`), which handles HTTP requests and responses. It contains controllers that interact with the MediatR library to execute application use cases.
+- **Presentation Layer**: This layer includes the ASP.NET Core Web API project (`CoffeeClub.Api`), which handles HTTP requests and responses. It contains controllers that interact with the MediatR library to execute application use cases. There is also a Blazor Application(`BlazorVotingApp`) which leverages SignalR to allow teams to vote on a coffee.
 
 - **Application Layer**: This layer (`CoffeeClub.Application`) contains the application use cases and business logic. It uses the MediatR library to implement the CQRS (Command Query Responsibility Segregation) pattern. Use cases are implemented as commands or queries, which are handled by corresponding command or query handlers.
 
@@ -28,7 +28,7 @@ The Coffee Club application provides the following functionality:
 
 To run the Coffee Club application locally, follow these steps:
 
-1. Ensure that you have .NET 5.0 SDK installed on your machine.
+1. Ensure that you have .NET 8.0 SDK installed on your machine.
 
 2. Clone the repository to your local machine.
 
@@ -62,11 +62,9 @@ The Coffee Club API is documented using Swagger/OpenAPI. You can access the API 
 
 Here are some potential enhancements that could be made to the Coffee Club application:
 
+- **Move more logic into Domain layer**: Current implementation depends a lot of the application layer for logic some of that logic should be moved into the domain layer to avoid a Anemic Domain model.
+
 - **Authentication and Authorization**: Implement authentication and authorization mechanisms to ensure that only authorized users can create voting sessions or perform administrative actions.
 
-- **User Interface**: Develop a user interface (UI) for the Coffee Club application to provide a more user-friendly experience for employees.
-
 - **Email Notifications**: Integrate with an email service to send notifications to employees about voting sessions, coffee updates, and other important events.
-
-- **Analytics and Reporting
 
