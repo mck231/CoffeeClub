@@ -27,7 +27,7 @@ namespace CoffeeClub.Persistence
         public DbSet<User> Users { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<Announcement> Announcements { get; set; }
-        public DbSet<Payment> Payments { get; set; }
+        //public DbSet<Payment> Payments { get; set; }
         public DbSet<CoffeeGroup> CoffeeGroups { get; set; }
         public DbSet<CoffeeSelection> CoffeeSelections { get; set; } // Add this line
 
@@ -36,11 +36,6 @@ namespace CoffeeClub.Persistence
         {
             // Apply configurations
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(CoffeeConfiguration).Assembly);
-
-            // Configure decimal properties
-            modelBuilder.Entity<Payment>()
-                .Property(p => p.Amount)
-                .HasColumnType("decimal(18, 2)");
 
             // Configure relationships
             modelBuilder.Entity<Vote>()
@@ -402,11 +397,10 @@ namespace CoffeeClub.Persistence
                 }
             );
 
-            modelBuilder.Entity<Payment>().HasData(
-            new Payment { PaymentId = Guid.Parse("40C4591E-FF90-4CD3-8FF7-4582F2392883"), UserId = marco.UserId, Amount = 10.99m, PaymentDate = seedDate},
-            new Payment { PaymentId = Guid.Parse("57200C32-3250-4C60-9090-720027577EF4"), UserId = sarah.UserId, Amount = 15.99m, PaymentDate = seedDate},
-            new Payment { PaymentId = Guid.Parse("089F7464-800E-4A19-8254-E62A470183FD"), UserId = mike.UserId, Amount = 8.99m, PaymentDate = seedDate}
-            );
+            // modelBuilder.Entity<Payment>().HasData(
+            // new Payment { PaymentId = Guid.Parse("40C4591E-FF90-4CD3-8FF7-4582F2392883"), UserId = marco.UserId, Amount = 10.99m, PaymentDate = seedDate}
+            //
+            // );
 
 
 

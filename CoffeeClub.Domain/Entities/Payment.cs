@@ -7,12 +7,10 @@ using System.Threading.Tasks;
 
 namespace CoffeeClub.Domain.Entities
 {
-    public class Payment : AuditTableEntity
+    public class Payment
     {
         public Guid PaymentId { get; set; }
-        public Guid UserId { get; set; }
-        public decimal Amount { get; set; }
-        public DateTime PaymentDate { get; set; }
+        
 
     }
 }
