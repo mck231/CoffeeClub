@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using CoffeeClub.Application.Features.VotingSession.Commands.EditVotingSession;
 using CoffeeClub.Application.Features.VotingSession.Queries.GetVotingSession;
+using CoffeeClub.Application.Features.VotingSession.Queries.GetVotingSessionExcelFileQuery;
 using CoffeeClub.Application.Features.VotingSession.Queries.GetVotingSessionsByTeam;
 using CoffeeClub.Application.Features.VottingSession.Commands.CreateVotingSession;
 using CoffeeClub.Domain.Entities;
@@ -34,6 +35,13 @@ namespace CoffeeClub.Api.Controllers
         {
             var votingSession = await _mediator.Send(new GetVotingSessionsByTeamQuery() { TeamId = teamId});
             return Ok(votingSession);
+        }
+
+        [HttpGet("getExcelFile/{voteSessionId}")]
+        public async Task<IActionResult> GetExcelResultsFromVotingSession(Guid voteSessionId)
+        {
+            var fileBytes = await _mediator.Send(new GetVotingSessionExcelFileQuery { VotingSessionId = voteSessionId });
+            return File(fileBytes, "text/csv", $"voting-session-{voteSessionId}.csv");
         }
 
 

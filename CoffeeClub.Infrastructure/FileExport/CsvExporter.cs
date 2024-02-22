@@ -1,24 +1,19 @@
 ﻿using CoffeeClub.Application.Contracts.Infrastructure;
-using CoffeeClub.Application.Features.Coffee.Queries.GetCoffee;
 using CsvHelper;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using CoffeeClub.Application.Features.VotingSession.Queries.GetVotingSessionExcelFileQuery;
 namespace CoffeeClub.Infrastructure.FileExport
 {
-    public class CsvExporter : ICsvExporter<CoffeeDto>
+    public class CsvExporter : ICsvExporter<VoteSummaryDto>
     {
+       
         /// <summary>
         /// This exports data to CSV.
         /// Does not work on Brave Browser.
         /// </summary>
         /// <param name="jsonDataExportDtos"></param>
         /// <returns></returns>
-        public byte[] ExportJsonDataToCsv(List<CoffeeDto> jsonDataExportDtos)
+        public byte[] ExportJsonDataToCsv(List<VoteSummaryDto> jsonDataExportDtos)
         {
             using var memoryStream = new MemoryStream();
             using (var streamWriter = new StreamWriter(memoryStream))
@@ -29,6 +24,7 @@ namespace CoffeeClub.Infrastructure.FileExport
                 }
             }
             return memoryStream.ToArray();
+            
         }
     }
 }
